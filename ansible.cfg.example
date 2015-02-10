@@ -1,0 +1,17 @@
+# cf http://docs.ansible.com/intro_configuration.html
+[defaults]
+hostfile = inventory
+display_skipped_hosts = False
+## Private SSH key for ansible user is relative to the playbook directory
+private_key_file = ../private/ssh/ansible
+ansible_managed = This file is managed by ansible. Any change would be overwritten.
+
+remote_user = ansible
+sudo_user = root
+sudo = yes
+
+[ssh_connection]
+pipelining=True
+
+[custom]
+dir = chezwam
