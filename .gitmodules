@@ -1,0 +1,51 @@
+[submodule "roles/cw.apt"]
+	path = roles/cw.apt
+	url = https://github.com/cw-ansible/cw.apt.git
+[submodule "roles/cw.backuppc-agent"]
+	path = roles/cw.backuppc-agent
+	url = https://github.com/cw-ansible/cw.backuppc-agent.git
+[submodule "roles/cw.base"]
+	path = roles/cw.base
+	url = https://github.com/cw-ansible/cw.base.git
+[submodule "roles/cw.etckeeper"]
+	path = roles/cw.etckeeper
+	url = https://github.com/cw-ansible/cw.etckeeper.git
+[submodule "roles/cw.isc-dhcp-client"]
+	path = roles/cw.isc-dhcp-client
+	url = https://github.com/cw-ansible/cw.isc-dhcp-client.git
+[submodule "roles/cw.locales"]
+	path = roles/cw.locales
+	url = https://github.com/cw-ansible/cw.locales.git
+[submodule "roles/cw.monit"]
+	path = roles/cw.monit
+	url = https://github.com/cw-ansible/cw.monit.git
+[submodule "roles/cw.ntp"]
+	path = roles/cw.ntp
+	url = https://github.com/cw-ansible/cw.ntp.git
+[submodule "roles/cw.opensmtpd"]
+	path = roles/cw.opensmtpd
+	url = https://github.com/cw-ansible/cw.opensmtpd.git
+[submodule "roles/cw.openvpn"]
+	path = roles/cw.openvpn
+	url = https://github.com/cw-ansible/cw.openvpn.git
+[submodule "roles/cw.sysctl"]
+	path = roles/cw.sysctl
+	url = https://github.com/cw-ansible/cw.sysctl.git
+[submodule "roles/cw.upstart-services"]
+	path = roles/cw.upstart-services
+	url = https://github.com/cw-ansible/cw.upstart-services.git
+[submodule "roles/cw.ansible-bootstrap"]
+	path = roles/cw.ansible-bootstrap
+	url = https://github.com/cw-ansible/cw.ansible-bootstrap.git
+[submodule "roles/cw.dell"]
+	path = roles/cw.dell
+	url = https://github.com/cw-ansible/cw.dell.git
+[submodule "roles/cw.ssh"]
+	path = roles/cw.ssh
+	url = https://github.com/cw-ansible/cw.ssh.git
+[submodule "test-suite"]
+	path = test-suite
+	url = https://github.com/cw-ansible/test-suite.git
+[submodule "roles/cw.vagrant-box"]
+	path = roles/cw.vagrant-box
+	url = https://github.com/cw-ansible/cw.vagrant-box.git
