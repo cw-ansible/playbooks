@@ -1,0 +1,11 @@
+---
+#
+# playbook used to display all variables from a target host
+
+# Run:
+#   ansible-playbook -l host pb_setup.yml
+
+- hosts: "all"
+  
+  roles:
+    - { role: cw.vagrant-box, tags: cw.vagrant-box }
