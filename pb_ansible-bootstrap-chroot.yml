@@ -1,0 +1,88 @@
+---
+#
+# Bootstrap ansible on fresh new installed server
+#
+# Should be run as root user
+#
+#   ansible-playbook -i inventory-chroot -c chroot pb_sr_ansible-chroot-bootstrap.yml
+#
+#
+- hosts: "_chroot"
+  user: root
+  connection: chroot
+
+  pre_tasks:
+    - name: mount pseudo file systems
+      shell:
+        mount -o bind '{{ item }}' '/srv/target/{{ item }}'
+      connection: local
+      with_items:
+        - /proc
+        - /dev
+        - /dev/pts
+      tags:
+        - snmpd
+    - name: fix hosts file in chroot
+      command:
+        cp /etc/hosts /etc/hosts.ansible-saved
+        creates=/etc/hosts.ansible-saved
+    - name: fix hosts file in chroot
+      copy:
+        src: /etc/hosts
+        dest: /srv/target/etc/hosts
+      connection: local
+
+  # Roles are copy/paste from pb_base.yml
+  roles:
+    - { role: cw.apt, tags: cw.apt }  
+    - { role: cw.ansible-bootstrap, tags: cw.ansible-bootstrap }
+    - { role: cw.etckeeper, tags: cw.etckeeper }
+    - { role: cw.upstart-services, tags: cw.upstart-services }
+    - { role: cw.isc-dhcp-client, tags: cw.isc-dhcp-client }
+    - { role: cw.opensmtpd, tags: cw.opensmtpd }
+    - { role: cw.credentials, tags: cw.credentials }  
+    - { role: cw.ssh, tags: cw.ssh }
+    - { role: cw.locales, tags: cw.locales }
+    - { role: cw.ntp, tags: cw.ntp }
+    - { role: cw.base, tags: cw.base }
+    - { role: cw.sysctl, tags: cw.sysctl }
+    - { role: cw.dell, tags: cw.dell }
+     
+  post_tasks:
+    # We install grub-common here and ignore any kind of error since it
+    # would be reconfigured properly after we cheat on grub-mkconfig.
+    #
+    # This dirty hack is required if / is a tmpfs since grub-mkconfig fails
+    # for that configuration. Thus we have to remove the "set -e" from
+    # /usr/sbin/grub-mkconfig (see next task).
+    - name: update grub-common
+      ignore_errors: yes
+      shell:
+        DEBIAN_FRONTEND=noninteractive DEBIAN_PRIORITY=critical apt-get install grub-common -y --force-yes
+
+    - name: Remove 'set -e' from /usr/sbin/grub-mkconfig
+      shell:
+        sed -i -e 's,^\(set -e\),# \1 \# grub-mkconfig does not work well if / is tmpfs,' /usr/sbin/grub-mkconfig
+
+    - name: run dist-upgrade
+      shell:
+        DEBIAN_FRONTEND=noninteractive DEBIAN_PRIORITY=critical apt-get dist-upgrade -y --force-yes
+
+    # - name: Remove old kernels
+    #   shell:
+    #     dpkg -l 'linux-image-*'| grep '^ii' | grep -F $(uname -r)  | awk '{print $2}' | xargs --no-run-if-empty apt-get -y --force-yes remove --purge 
+
+    - name: umount pseudo file systems
+      shell:
+        umount -l '/srv/target/{{ item }}'
+      connection: local
+      with_items:
+        - /dev/pts
+        - /dev
+        - /proc
+      tags:
+        - snmpd
+    - name: fix hosts file in chroot
+      command:
+        mv /etc/hosts.ansible-saved etc/hosts
+        removes=/etc/hosts    
