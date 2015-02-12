@@ -49,3 +49,12 @@
 [submodule "roles/cw.vagrant-box"]
 	path = roles/cw.vagrant-box
 	url = https://github.com/cw-ansible/cw.vagrant-box.git
+[submodule "library/cw.lib.osx"]
+	path = library/cw.lib.osx
+	url = https://github.com/cw-ansible/cw.lib.osx.git
+[submodule "filter_plugins"]
+	path = filter_plugins
+	url = https://github.com/cw-ansible/filter_plugins.git
+[submodule "lookup_plugins"]
+	path = lookup_plugins
+	url = https://github.com/cw-ansible/lookup_plugins.git
