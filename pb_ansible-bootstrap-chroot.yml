@@ -63,14 +63,22 @@
     - name: Remove 'set -e' from /usr/sbin/grub-mkconfig
       shell:
         sed -i -e 's,^\(set -e\),# \1 \# grub-mkconfig does not work well if / is tmpfs,' /usr/sbin/grub-mkconfig
-
+        
     - name: run dist-upgrade
       shell:
         DEBIAN_FRONTEND=noninteractive DEBIAN_PRIORITY=critical apt-get dist-upgrade -y --force-yes
 
-    # - name: Remove old kernels
-    #   shell:
-    #     dpkg -l 'linux-image-*'| grep '^ii' | grep -F $(uname -r)  | awk '{print $2}' | xargs --no-run-if-empty apt-get -y --force-yes remove --purge 
+    - name: Get installed kernel
+      shell:
+        ls -1 -X /lib/modules/ | sort -g
+      changed_when: False
+      register: installed_kernel
+
+    - name: Remove old kernels
+      shell:
+        apt-get -y --force-yes remove --purge linux-image-{{item}} linux-image-extra-{{item}}
+      with_items: installed_kernel.stdout_lines[0:-1]
+        
 
     - name: umount pseudo file systems
       shell:
