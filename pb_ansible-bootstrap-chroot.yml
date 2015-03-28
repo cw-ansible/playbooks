@@ -7,10 +7,11 @@
 #   ansible-playbook -i inventory-chroot -c chroot pb_sr_ansible-chroot-bootstrap.yml
 #
 #
+
 - hosts: "_chroot"
   user: root
-  connection: chroot
-
+  connection: local
+  gather_facts: no
   pre_tasks:
     - name: mount pseudo file systems
       shell:
@@ -22,6 +23,11 @@
         - /dev/pts
       tags:
         - snmpd
+
+- hosts: "_chroot"
+  user: root
+  connection: chroot
+  pre_tasks:
     - name: fix hosts file in chroot
       command:
         cp /etc/hosts /etc/hosts.ansible-saved
