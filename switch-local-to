@@ -1,0 +1,35 @@
+#!/bin/sh
+
+# Copyright © 2015 Sébastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>
+# 
+# Created: 2015-04-20
+# Last changed: 2015-04-20 18:10:17
+# 
+# This program is free software. It comes without any warranty, to
+# the extent permitted by applicable law. You can redistribute it
+# and/or modify it under the terms of the Do What The Fuck You Want
+# To Public License, Version 2, as published by Sam Hocevar. See
+# http://sam.zoy.org/wtfpl/COPYING for more details.
+#
+# This script links ansible.cfg and inventory to local repository.
+#
+
+ROOT=$1
+FILES="ansible.cfg inventory"
+
+
+if test -z "$ROOT"; then
+    echo $1 PRIVATE_DATA_DIRECTORY
+    exit 1
+fi
+
+for f in $FILES; do
+    if ! test -e $ROOT/$f; then
+	echo "File $ROOT/$f not found."
+	exit 1
+    fi
+done
+
+for f in $FILES; do
+    ln -nfvs $ROOT/$f .
+done
