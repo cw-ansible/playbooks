@@ -53,6 +53,7 @@
     - { role: cw.base, tags: cw.base }
     - { role: cw.sysctl, tags: cw.sysctl }
     - { role: cw.dell, tags: cw.dell }
+    - { role: cw.hp, tags: cw.hp }
      
   post_tasks:
     # We install grub-common here and ignore any kind of error since it
