@@ -40,7 +40,7 @@
 
   # Roles are copy/paste from pb_base.yml
   roles:
-    - { role: cw.apt, tags: cw.apt }  
+    - { role: cw.apt, tags: cw.apt, apt_force_update: yes }  
     - { role: cw.ansible-bootstrap, tags: cw.ansible-bootstrap }
     - { role: cw.etckeeper, tags: cw.etckeeper }
     - { role: cw.upstart-services, tags: cw.upstart-services }
