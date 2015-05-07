@@ -46,6 +46,7 @@
     - { role: cw.upstart-services, tags: cw.upstart-services }
     - { role: cw.isc-dhcp-client, tags: cw.isc-dhcp-client }
     - { role: cw.opensmtpd, tags: cw.opensmtpd }
+    - { role: cw.lldp, tags: cw.lldp }
     - { role: cw.credentials, tags: cw.credentials }  
     - { role: cw.ssh, tags: cw.ssh }
     - { role: cw.locales, tags: cw.locales }
