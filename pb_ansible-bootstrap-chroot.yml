@@ -73,8 +73,11 @@
         sed -i -e 's,^\(set -e\),# \1 \# grub-mkconfig does not work well if / is tmpfs,' /usr/sbin/grub-mkconfig
         
     - name: run dist-upgrade
+      # Add --force-confold to dpkg run dist-upgrade in real non interactive
+      # mode (ei when a configuration file has changed, keep old since this
+      # if run on a fresh system).
       shell:
-        DEBIAN_FRONTEND=noninteractive DEBIAN_PRIORITY=critical apt-get dist-upgrade -y --force-yes
+        DEBIAN_FRONTEND=noninteractive DEBIAN_PRIORITY=critical apt-get dist-upgrade -o Dpkg::Options::='--force-confold' -y --force-yes
 
     - name: Get installed kernel
       shell:
