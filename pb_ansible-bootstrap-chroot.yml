@@ -87,9 +87,16 @@
 
     - name: Remove old kernels
       shell:
-        apt-get -y --force-yes remove --purge linux-image-{{item}} linux-image-extra-{{item}}
+        apt-get -y --force-yes remove --purge linux-image-{{item}}
       with_items: installed_kernel.stdout_lines[0:-1]
-        
+
+    # Sometimes linux-image-extra is not installed, so don't fail if we
+    # cannot remove it.
+    - name: Remove old kernels (extra)
+      shell:
+        apt-get -y --force-yes remove --purge linux-image-extra-{{item}}
+      ignore_errors: yes
+      with_items: installed_kernel.stdout_lines[0:-1]
 
     - name: umount pseudo file systems
       shell:
