@@ -105,6 +105,11 @@
       ignore_errors: yes
       with_items: installed_kernel.stdout_lines[0:-1]
 
+    - name: Update grub configuration
+      shell:
+        update-grub
+      ignore_errors: yes
+      
     - name: umount pseudo file systems
       shell:
         umount -l '/srv/target/{{ item }}'
