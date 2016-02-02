@@ -15,12 +15,19 @@
   pre_tasks:
     - name: mount pseudo file systems
       shell:
-        mount -o bind '{{ item }}' '/srv/target/{{ item }}'
+        mount -o bind '{{ item.name }}' '/srv/target/{{ item.name }}'
+      args:
+        creates: '/srv/target/{{ item.name }}/{{ item.creates }}'
       connection: local
       with_items:
-        - /proc
-        - /dev
-        - /dev/pts
+        - name: /proc
+          creates: 1
+        - name: /dev
+          creates: 'null'
+        - name: /dev/pts
+          creates: ptmx
+        - name: /sys
+          creates: class
       tags:
         - snmpd
 
@@ -103,6 +110,7 @@
         umount -l '/srv/target/{{ item }}'
       connection: local
       with_items:
+        - /sys
         - /dev/pts
         - /dev
         - /proc
