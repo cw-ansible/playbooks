@@ -78,6 +78,11 @@
     - name: Remove 'set -e' from /usr/sbin/grub-mkconfig
       shell:
         sed -i -e 's,^\(set -e\),# \1 \# grub-mkconfig does not work well if / is tmpfs,' /usr/sbin/grub-mkconfig
+
+    - name: Update grub configuration
+      shell:
+        /usr/sbin/update-grub
+      ignore_errors: yes
         
     - name: run dist-upgrade
       # Add --force-confold to dpkg run dist-upgrade in real non interactive
@@ -104,11 +109,6 @@
         apt-get -y --force-yes remove --purge linux-image-extra-{{item}}
       ignore_errors: yes
       with_items: installed_kernel.stdout_lines[0:-1]
-
-    - name: Update grub configuration
-      shell:
-        update-grub
-      ignore_errors: yes
       
     - name: umount pseudo file systems
       shell:
