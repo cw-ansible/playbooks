@@ -23,7 +23,7 @@
         - name: /proc
           creates: 1
         - name: /dev
-          creates: 'null'
+          creates: 'bus'
         - name: /dev/pts
           creates: ptmx
         - name: /sys
